@@ -82,6 +82,20 @@ export function useMilitaryAnalysis() {
           messages: [...prev.messages, userMessage],
         }))
 
+        // Create user message in the API
+        if (state.conversationId) {
+          try {
+            await militaryAPI.createMessage({
+              conversation_id: state.conversationId,
+              role: "user",
+              content: query,
+              classification_level: classification,
+            })
+          } catch (error) {
+            console.warn("Failed to save user message:", error)
+          }
+        }
+
         // Use existing conversation ID
         const conversationId = state.conversationId
         if (!conversationId) {
@@ -110,6 +124,7 @@ export function useMilitaryAnalysis() {
                   content: streamingContentRef.current,
                   classification_level: classification,
                   created_at: new Date().toISOString(),
+                  message_metadata: chunk.message?.message_metadata,
                 })
               }
 
@@ -130,12 +145,18 @@ export function useMilitaryAnalysis() {
                 isStreaming: false,
               }
             })
+          } else if (chunk.type === "error") {
+            setState((prev) => ({
+              ...prev,
+              error: "Analysis failed",
+              isStreaming: false,
+            }))
           }
         })
       } catch (error) {
         setState((prev) => ({
           ...prev,
-          error: "Failed to analyze query",
+          error: error instanceof Error ? error.message : "Failed to analyze query",
           isStreaming: false,
         }))
       }

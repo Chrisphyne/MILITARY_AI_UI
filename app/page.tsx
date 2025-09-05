@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChatGPTSidebar } from "@/components/chatgpt-sidebar"
 import { ChatGPTMainInterface } from "@/components/chatgpt-main-interface"
 import { useChatHistory } from "@/hooks/use-chat-history"
+import { SecurityContextProvider } from "@/components/security-context-provider"
 
 export default function HomePage() {
   const {
@@ -57,19 +58,21 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
-      <ChatGPTSidebar
-        onNewChat={handleNewChat}
-        onNewProject={handleNewProject}
-        selectedChatId={currentConversation?.id}
-        onChatSelect={handleChatSelect}
-      />
-      <ChatGPTMainInterface
-        messages={currentConversation?.messages || []}
-        onSendMessage={handleSendMessage}
-        selectedChatId={currentConversation?.id}
-        isStreaming={isStreaming}
-      />
-    </div>
+    <SecurityContextProvider>
+      <div className="flex h-screen bg-background">
+        <ChatGPTSidebar
+          onNewChat={handleNewChat}
+          onNewProject={handleNewProject}
+          selectedChatId={currentConversation?.id}
+          onChatSelect={handleChatSelect}
+        />
+        <ChatGPTMainInterface
+          messages={currentConversation?.messages || []}
+          onSendMessage={handleSendMessage}
+          selectedChatId={currentConversation?.id}
+          isStreaming={isStreaming}
+        />
+      </div>
+    </SecurityContextProvider>
   )
 }

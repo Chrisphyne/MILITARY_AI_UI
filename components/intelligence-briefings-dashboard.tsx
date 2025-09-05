@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Filter, Plus, Calendar, TrendingUp } from "lucide-react"
+import { militaryAPI, type BriefingResponse } from "@/lib/api"
 
 interface BriefingData {
   id: string
@@ -45,81 +46,103 @@ export function IntelligenceBriefingsDashboard() {
   const loadBriefings = async () => {
     try {
       setIsLoading(true)
-      // Mock data - in a real app, this would come from the API
-      const mockBriefings: BriefingData[] = [
-        {
-          id: "daily-001",
+      
+      // Load actual briefings from API
+      const [dailyBriefing, weeklyBriefing] = await Promise.allSettled([
+        militaryAPI.getDailyBriefing(),
+        militaryAPI.getWeeklyBriefing()
+      ])
+      
+      const briefingsData: BriefingData[] = []
+      
+      if (dailyBriefing.status === 'fulfilled') {
+        briefingsData.push({
+          id: `daily-${Date.now()}`,
           type: "daily",
           title: "Daily Intelligence Brief - Defense Readiness",
-          summary:
-            "Current assessment of military unit readiness levels and operational capabilities across all branches.",
-          classification_level: "CONFIDENTIAL",
+          summary: "Current assessment of military unit readiness levels and operational capabilities.",
+          classification_level: dailyBriefing.value.classification,
+          generated_at: dailyBriefing.value.generated_at,
+          status: "ready",
+          key_points: extractKeyPoints(dailyBriefing.value.content),
+          threat_level: "medium",
+          full_content: dailyBriefing.value.content,
+          recommendations: extractRecommendations(dailyBriefing.value.content),
+          sources: dailyBriefing.value.agents_used.map(agent => `Agent: ${agent}`),
+        })
+      }
+      
+      if (weeklyBriefing.status === 'fulfilled') {
+        briefingsData.push({
+          id: `weekly-${Date.now()}`,
+          type: "weekly",
+          title: "Weekly Strategic Assessment - Regional Security",
+          summary: "Comprehensive analysis of regional security threats and strategic positioning.",
+          classification_level: weeklyBriefing.value.classification,
+          generated_at: weeklyBriefing.value.generated_at,
+          status: "ready",
+          key_points: extractKeyPoints(weeklyBriefing.value.content),
+          threat_level: "high",
+          full_content: weeklyBriefing.value.content,
+          recommendations: extractRecommendations(weeklyBriefing.value.content),
+          sources: weeklyBriefing.value.agents_used.map(agent => `Agent: ${agent}`),
+        })
+      }
+      
+      // Add mock data if API calls failed
+      if (briefingsData.length === 0) {
+        briefingsData.push({
+          id: "mock-daily",
+          type: "daily",
+          title: "Daily Intelligence Brief - Defense Readiness",
+          summary: "Current assessment of military unit readiness levels and operational capabilities across all branches.",
+          classification_level: "UNCLASSIFIED",
           generated_at: new Date().toISOString(),
           status: "ready",
           key_points: [
             "Army readiness at 85% operational capacity",
             "Navy fleet deployment status updated",
             "Air Force maintenance schedules optimized",
-            "Joint training exercises scheduled for next quarter",
           ],
           threat_level: "medium",
           full_content: "Detailed analysis of current military readiness...",
-          recommendations: [
-            "Increase maintenance funding for aging equipment",
-            "Expand joint training programs",
-            "Review personnel allocation strategies",
-          ],
-          sources: ["Defense Intelligence Agency", "Joint Chiefs of Staff", "Branch Command Reports"],
-        },
-        {
-          id: "weekly-001",
-          type: "weekly",
-          title: "Weekly Strategic Assessment - Regional Security",
-          summary:
-            "Comprehensive analysis of regional security threats and strategic positioning for the upcoming week.",
-          classification_level: "SECRET",
-          generated_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-          status: "ready",
-          key_points: [
-            "Regional threat assessment updated",
-            "Border security measures enhanced",
-            "Intelligence sharing protocols activated",
-            "Strategic asset positioning reviewed",
-          ],
-          threat_level: "high",
-          full_content: "Weekly strategic assessment covering regional developments...",
-          recommendations: [
-            "Enhance border surveillance capabilities",
-            "Increase intelligence coordination",
-            "Review strategic asset deployment",
-          ],
-          sources: ["National Intelligence Council", "Regional Command Centers", "Allied Intelligence Services"],
-        },
-        {
-          id: "daily-002",
-          type: "daily",
-          title: "Daily Operational Brief - Equipment Status",
-          summary: "Status report on military equipment, maintenance schedules, and procurement updates.",
-          classification_level: "UNCLASSIFIED",
-          generated_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          status: "ready",
-          key_points: [
-            "Equipment maintenance on schedule",
-            "New procurement contracts approved",
-            "Technology upgrades in progress",
-          ],
-          threat_level: "low",
-          full_content: "Daily operational briefing on equipment status...",
-          recommendations: ["Continue current maintenance schedule", "Monitor new technology integration"],
-          sources: ["Logistics Command", "Procurement Office", "Technical Services"],
-        },
-      ]
-      setBriefings(mockBriefings)
+          recommendations: ["Increase maintenance funding", "Expand training programs"],
+          sources: ["Defense Intelligence Agency", "Joint Chiefs of Staff"],
+        })
+      }
+      
+      setBriefings(briefingsData)
     } catch (error) {
       console.error("Failed to load briefings:", error)
+      // Set empty array on error
+      setBriefings([])
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const extractKeyPoints = (content: string): string[] => {
+    // Simple extraction of key points from content
+    const lines = content.split('\n').filter(line => 
+      line.trim().startsWith('•') || 
+      line.trim().startsWith('-') || 
+      line.trim().startsWith('*')
+    )
+    return lines.slice(0, 5).map(line => line.replace(/^[•\-*]\s*/, '').trim())
+  }
+
+  const extractRecommendations = (content: string): string[] => {
+    // Simple extraction of recommendations from content
+    const recommendationSection = content.toLowerCase().indexOf('recommendation')
+    if (recommendationSection === -1) return []
+    
+    const afterRecommendations = content.slice(recommendationSection)
+    const lines = afterRecommendations.split('\n').filter(line => 
+      line.trim().startsWith('•') || 
+      line.trim().startsWith('-') || 
+      line.trim().startsWith('*')
+    )
+    return lines.slice(0, 3).map(line => line.replace(/^[•\-*]\s*/, '').trim())
   }
 
   const filterBriefings = () => {
@@ -173,8 +196,8 @@ export function IntelligenceBriefingsDashboard() {
   }
 
   const handleGenerateNewBriefing = () => {
-    // Mock new briefing generation
-    console.log("Generating new briefing...")
+    // Reload briefings to get fresh data
+    loadBriefings()
   }
 
   if (selectedBriefing) {

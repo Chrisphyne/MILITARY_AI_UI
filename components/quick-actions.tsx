@@ -39,7 +39,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Unit Readiness Assessment",
       description: "Analyze current operational readiness levels across all military units",
       query:
-        "Provide a comprehensive analysis of current military unit readiness levels, including personnel strength, equipment status, and operational capabilities.",
+        "Provide a comprehensive analysis of current military unit readiness levels across all branches of the Kenya Defence Forces, including personnel strength, equipment status, and operational capabilities.",
       icon: Shield,
       classification: "CONFIDENTIAL",
       category: "readiness",
@@ -49,9 +49,9 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Defense Budget Analysis",
       description: "Review defense spending allocation and budget efficiency",
       query:
-        "Analyze the current defense budget allocation, spending patterns, and identify areas for optimization or concern.",
+        "Analyze the current defense budget allocation for Kenya, spending patterns, and identify areas for optimization or reallocation of resources.",
       icon: DollarSign,
-      classification: "CONFIDENTIAL",
+      classification: "UNCLASSIFIED",
       category: "budget",
     },
     {
@@ -59,7 +59,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Personnel Strength Report",
       description: "Current military personnel numbers and deployment status",
       query:
-        "Generate a report on current military personnel strength, deployment status, and staffing levels across all branches.",
+        "Provide detailed statistics on Kenya Defence Forces personnel including recruitment numbers, retention rates, demographic breakdown, and training status.",
       icon: Users,
       classification: "CONFIDENTIAL",
       category: "personnel",
@@ -69,9 +69,9 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Equipment & Logistics Status",
       description: "Military equipment readiness and supply chain analysis",
       query:
-        "Provide an overview of military equipment status, maintenance schedules, and logistics supply chain efficiency.",
+        "Provide a detailed report on the status of Kenya Defence Forces equipment, vehicles, and assets including maintenance schedules, operational readiness, and replacement needs.",
       icon: Truck,
-      classification: "UNCLASSIFIED",
+      classification: "CONFIDENTIAL",
       category: "operations",
     },
     {
@@ -79,7 +79,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Threat Assessment",
       description: "Current security threats and risk analysis",
       query:
-        "Conduct a comprehensive threat assessment including current security risks, potential threats, and recommended countermeasures.",
+        "Conduct a comprehensive threat assessment for the East African region, including border security, terrorism risks, and regional stability factors affecting Kenya.",
       icon: AlertTriangle,
       classification: "SECRET",
       category: "intelligence",
@@ -89,7 +89,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Operational Metrics Dashboard",
       description: "Key performance indicators and operational statistics",
       query:
-        "Display key operational metrics, performance indicators, and statistical analysis of military operations efficiency.",
+        "Analyze key operational metrics and performance indicators for Kenya Defence Forces operations efficiency and effectiveness.",
       icon: BarChart3,
       classification: "CONFIDENTIAL",
       category: "operations",
@@ -98,7 +98,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       id: "deployment-status",
       title: "Deployment Status Overview",
       description: "Current military deployments and positioning",
-      query: "Provide an overview of current military deployments, troop positioning, and strategic asset allocation.",
+      query: "Provide an overview of current Kenya Defence Forces deployments, troop positioning, and strategic asset allocation.",
       icon: MapPin,
       classification: "SECRET",
       category: "operations",
@@ -107,7 +107,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       id: "training-schedule",
       title: "Training & Exercises Schedule",
       description: "Upcoming training programs and military exercises",
-      query: "Show upcoming military training programs, joint exercises, and readiness training schedules.",
+      query: "Show upcoming Kenya Defence Forces training programs, joint exercises, and readiness training schedules.",
       icon: Target,
       classification: "UNCLASSIFIED",
       category: "readiness",
@@ -117,7 +117,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Maintenance Schedule Review",
       description: "Equipment maintenance timelines and priorities",
       query:
-        "Review current equipment maintenance schedules, priorities, and identify any critical maintenance requirements.",
+        "Review current Kenya Defence Forces equipment maintenance schedules, priorities, and identify any critical maintenance requirements.",
       icon: Clock,
       classification: "UNCLASSIFIED",
       category: "operations",
@@ -127,7 +127,7 @@ export function QuickActions({ onActionSelect }: QuickActionsProps) {
       title: "Performance Trends Analysis",
       description: "Historical performance data and trend analysis",
       query:
-        "Analyze historical performance trends, identify patterns, and provide insights on military effectiveness over time.",
+        "Analyze historical performance trends for Kenya Defence Forces, identify patterns, and provide insights on military effectiveness over time.",
       icon: TrendingUp,
       classification: "CONFIDENTIAL",
       category: "readiness",

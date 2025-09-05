@@ -49,22 +49,22 @@ export function MessageBubble({ message, isStreaming }: MessageBubbleProps) {
           </div>
 
           {isAssistant && message.metadata && (
-            <div className="mt-3 pt-3 border-t border-border/50">
+        {isAssistant && message.message_metadata && (
               <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
                 {message.metadata.analysis_type && (
-                  <Badge variant="secondary" className="text-xs">
+              {message.message_metadata?.analysis_type && (
                     {message.metadata.analysis_type}
-                  </Badge>
+                  {message.message_metadata.analysis_type}
                 )}
                 {message.metadata.agents_used && message.metadata.agents_used.length > 0 && (
-                  <Badge variant="outline" className="text-xs">
+              {message.message_metadata?.agents_used && message.message_metadata.agents_used.length > 0 && (
                     Agents: {message.metadata.agents_used.join(", ")}
-                  </Badge>
+                  Agents: {message.message_metadata.agents_used.join(", ")}
                 )}
                 {message.metadata.source_urls && message.metadata.source_urls.length > 0 && (
-                  <Badge variant="outline" className="text-xs">
+              {message.message_metadata?.source_urls && message.message_metadata.source_urls.length > 0 && (
                     {message.metadata.source_urls.length} sources
-                  </Badge>
+                  {message.message_metadata.source_urls.length} sources
                 )}
               </div>
             </div>

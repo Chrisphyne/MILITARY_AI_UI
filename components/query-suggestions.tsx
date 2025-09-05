@@ -87,7 +87,7 @@ const querySuggestions: QuerySuggestion[] = [
     title: "Border Security Status",
     description: "Review border security operations and challenges",
     query:
-      "Provide an assessment of border security operations, including patrol effectiveness, infrastructure status, and identified vulnerabilities along Kenya's borders.",
+      "Provide an assessment of Kenya's border security operations, including patrol effectiveness, infrastructure status, and identified vulnerabilities along Kenya's borders with Somalia, Ethiopia, Uganda, Tanzania, and South Sudan.",
     classification: "SECRET",
     category: "Security",
     icon: <MapPin className="h-4 w-4" />,
@@ -97,7 +97,7 @@ const querySuggestions: QuerySuggestion[] = [
     title: "Daily Intelligence Summary",
     description: "Get the latest intelligence briefing",
     query:
-      "Provide today's intelligence briefing including security updates, threat assessments, and operational status reports.",
+      "Provide today's intelligence briefing for Kenya including security updates, threat assessments, and operational status reports for the East African region.",
     classification: "SECRET",
     category: "Intelligence",
     icon: <FileText className="h-4 w-4" />,
