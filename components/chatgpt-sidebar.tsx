@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-{"code":"rate-limited","message":"You have hit the rate limit. Please upgrade to keep chatting.","providerLimitHit":false,"isRetryable":true}
-=======
 "use client"
 
-import type * as React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
@@ -80,14 +76,14 @@ export function ChatGPTSidebar({ onNewChat, onNewProject, selectedChatId, onChat
   const chats = externalChats ?? localChats
   const [showProjectModal, setShowProjectModal] = useState(false)
 
-  const filteredChats = chats.filter((chat) => chat.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredChats = chats.filter((chat: ChatItem) => chat.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const handleDeleteChat = (chatId: string, e: React.MouseEvent) => {
     e.stopPropagation()
     if (onDeleteChat) {
       onDeleteChat(chatId)
     } else {
-      setLocalChats((prev) => prev.filter((chat) => chat.id !== chatId))
+      setLocalChats((prev: ChatItem[]) => prev.filter((chat: ChatItem) => chat.id !== chatId))
     }
   }
 
@@ -160,8 +156,6 @@ export function ChatGPTSidebar({ onNewChat, onNewProject, selectedChatId, onChat
               size="sm"
               className="h-8 w-full justify-start gap-2 px-2 text-[13px] text-foreground hover:bg-accent"
             >
-ccent"
-            >
               <Library className="h-4 w-4" />
               Library
             </Button>
@@ -184,16 +178,17 @@ ccent"
           </div>
           <ScrollArea className="sidebar-scroll max-h-60 px-2">
             <div className="space-y-1 pb-2">
-              {(projects ?? []).map((p) => (
-                <ProjectRow
-                  key={p.id}
-                  project={p}
-                  selectedChatId={selectedChatId}
-                  onChatSelect={onChatSelect}
-                  onDeleteChat={onDeleteChat}
-                  onRenameChat={onRenameChat}
-                  onCreateConversation={onCreateConversation}
-                />
+              {(projects ?? []).map((p: ProjectItem) => (
+                <div key={p.id}>
+                  <ProjectRow
+                    project={p}
+                    selectedChatId={selectedChatId}
+                    onChatSelect={onChatSelect}
+                    onDeleteChat={onDeleteChat}
+                    onRenameChat={onRenameChat}
+                    onCreateConversation={onCreateConversation}
+                  />
+                </div>
               ))}
             </div>
           </ScrollArea>
@@ -206,17 +201,18 @@ ccent"
           </div>
           <ScrollArea className="sidebar-scroll flex-1 px-2">
             <div className="space-y-1 pb-4">
-              {filteredChats.map((chat) => (
-                <ChatItem
-                  key={chat.id}
-                  chat={chat}
-                  isSelected={chat.id === selectedChatId}
-                  onSelect={() => onChatSelect(chat.id)}
-                  onDelete={(e) => handleDeleteChat(chat.id, e)}
-                  onRename={(newTitle) => onRenameChat?.(chat.id, newTitle)}
-                  onSetClassification={(level) => onSetClassification?.(chat.id, level)}
-                  formatTimeAgo={formatTimeAgo}
-                />
+              {filteredChats.map((chat: ChatItem) => (
+                <div key={chat.id}>
+                  <ChatItem
+                    chat={chat}
+                    isSelected={chat.id === selectedChatId}
+                    onSelect={() => onChatSelect(chat.id)}
+                    onDelete={(e: React.MouseEvent) => handleDeleteChat(chat.id, e)}
+                    onRename={(newTitle) => onRenameChat?.(chat.id, newTitle)}
+                    onSetClassification={(level) => onSetClassification?.(chat.id, level)}
+                    formatTimeAgo={formatTimeAgo}
+                  />
+                </div>
               ))}
             </div>
           </ScrollArea>
@@ -299,7 +295,7 @@ function ChatItem({ chat, isSelected, onSelect, onDelete, onRename, onSetClassif
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 e.stopPropagation()
                 const newTitle = window.prompt("Rename conversation", chat.title)
                 if (newTitle && newTitle.trim() && onRename) {
@@ -311,7 +307,7 @@ function ChatItem({ chat, isSelected, onSelect, onDelete, onRename, onSetClassif
               Rename
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 e.stopPropagation()
                 onSetClassification?.("UNCLASSIFIED")
               }}
@@ -320,7 +316,7 @@ function ChatItem({ chat, isSelected, onSelect, onDelete, onRename, onSetClassif
               Mark as UNCLASSIFIED
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 e.stopPropagation()
                 onSetClassification?.("CONFIDENTIAL")
               }}
@@ -406,7 +402,7 @@ function ProjectRow({ project, selectedChatId, onChatSelect, onDeleteChat, onRen
               </Button>
             </div>
           ) : (
-            conversations.map((chat) => (
+            conversations.map((chat: ChatItem) => (
               <ChatItem
                 key={chat.id}
                 chat={chat}
@@ -418,7 +414,7 @@ function ProjectRow({ project, selectedChatId, onChatSelect, onDeleteChat, onRen
                 }}
                 onRename={(newTitle) => onRenameChat?.(chat.id, newTitle)}
                 onSetClassification={(level) => onSetClassification?.(chat.id, level)}
-                formatTimeAgo={(d) => ""}
+                formatTimeAgo={() => ""}
               />
             ))
           )}
@@ -427,4 +423,3 @@ function ProjectRow({ project, selectedChatId, onChatSelect, onDeleteChat, onRen
     </div>
   )
 }
->>>>>>> 00865fa (initial commit)

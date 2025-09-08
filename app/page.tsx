@@ -2,17 +2,11 @@
 
 import { ChatGPTSidebar } from "@/components/chatgpt-sidebar"
 import { ChatGPTMainInterface } from "@/components/chatgpt-main-interface"
-<<<<<<< HEAD
-import { useChatHistory } from "@/hooks/use-chat-history"
-import { useMilitaryAnalysis } from "@/hooks/use-military-analysis"
-=======
->>>>>>> 00865fa (initial commit)
 import { SecurityContextProvider } from "@/components/security-context-provider"
 import { useMilitaryAnalysis } from "@/hooks/use-military-analysis"
-import { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { militaryAPI, type MilitaryConversation, type MilitaryProject } from "@/lib/api"
 import { Panel, PanelGroup, PanelResizeHandle, type ImperativePanelHandle } from "react-resizable-panels"
-import { PanelLeftOpen } from "lucide-react"
 import { MiniRail } from "@/components/mini-rail"
 
 interface UIChatItem {
@@ -30,63 +24,6 @@ interface UIProject {
 }
 
 export default function HomePage() {
-<<<<<<< HEAD
-  const { messages, isStreaming, streamAnalysis, createStandaloneConversation, loadMessages, clearConversation } = useMilitaryAnalysis()
-  const [selectedChatId, setSelectedChatId] = useState<string | null>(null)
-  const [isCollapsed, setIsCollapsed] = useState(false)
-
-
-  const handleNewChat = () => {
-    clearConversation()
-    setSelectedChatId(null)
-  }
-
-  const handleChatSelect = (chatId: string) => {
-    setSelectedChatId(chatId)
-    loadMessages(chatId)
-  }
-
-  const handleSendMessage = async (message: string) => {
-    if (!selectedChatId) {
-      // Create a new standalone conversation
-      const conversation = await createStandaloneConversation("New Chat")
-      setSelectedChatId(conversation.id)
-    }
-
-    // Stream the analysis
-    await streamAnalysis(message, "UNCLASSIFIED")
-  }
-
-  const handleToggleCollapse = () => {
-    setIsCollapsed(!isCollapsed)
-  }
-
-  // Convert military messages to chat messages format
-  const chatMessages = messages.map(msg => ({
-    id: msg.id,
-    role: msg.role,
-    content: msg.content,
-    timestamp: new Date(msg.created_at)
-  }))
-
-  return (
-    <SecurityContextProvider>
-      <div className="flex h-screen bg-background">
-        <ChatGPTSidebar
-          onNewChat={handleNewChat}
-          selectedChatId={selectedChatId}
-          onChatSelect={handleChatSelect}
-          isCollapsed={isCollapsed}
-          onToggleCollapse={handleToggleCollapse}
-        />
-        <ChatGPTMainInterface
-          messages={chatMessages}
-          onSendMessage={handleSendMessage}
-          selectedChatId={selectedChatId}
-          isStreaming={isStreaming}
-        />
-      </div>
-=======
   const {
     messages,
     conversationId,
@@ -240,7 +177,7 @@ export default function HomePage() {
   }
 
   // Adapt MilitaryMessage[] to ChatGPTMainInterface expected shape
-  const adaptedMessages = messages.map((m) => ({
+  const adaptedMessages = messages.map((m: any) => ({
     id: m.id,
     role: m.role,
     content: m.content,
@@ -257,10 +194,8 @@ export default function HomePage() {
       <PanelGroup
         direction="horizontal"
         className="h-screen bg-background"
-        onLayout={(sizes) => {
-          // sizes is an array of percentages for [sidebar, main]
+        onLayout={(sizes: number[]) => {
           const s = sizes?.[0] ?? 0
-          // Track last non-trivial size so we can restore it when expanding
           if (s > 2) setLastSidebarSize(s)
           setSidebarCollapsed(s <= 0.5)
         }}
@@ -307,7 +242,6 @@ export default function HomePage() {
           </div>
         </Panel>
       </PanelGroup>
->>>>>>> 00865fa (initial commit)
     </SecurityContextProvider>
   )
 }
