@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ChatGPTMessageBubble } from "@/components/chatgpt-message-bubble"
-import { Mic, ArrowUp, Paperclip } from "lucide-react"
+import { Mic, ArrowUp, Paperclip, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface ChatMessage {
@@ -52,6 +52,10 @@ export function ChatGPTMainInterface({
     // Voice input functionality would be implemented here
   }
 
+  const handleFileUpload = () => {
+    // File upload functionality would be implemented here
+    console.log("File upload clicked")
+  }
   // Show chat interface if a chat is selected
   if (selectedChatId && messages.length > 0) {
     return (
@@ -87,6 +91,7 @@ export function ChatGPTMainInterface({
                     type="button"
                     variant="ghost"
                     size="sm"
+                    onClick={handleFileUpload}
                     className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
                   >
                     <Paperclip className="h-4 w-4" />
@@ -124,38 +129,36 @@ export function ChatGPTMainInterface({
   // Show welcome screen when no chat is selected or no messages
   return (
     <div className="flex-1 flex flex-col bg-background">
-      {/* Header with upgrade button */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
-        <div className="flex items-center gap-2">
-          <h1 className="text-lg font-semibold text-foreground">ChatGPT</h1>
-          <Button variant="ghost" size="sm" className="text-muted-foreground">
-            <svg className="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </Button>
-        </div>
-        <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-4">
-          Upgrade your plan
-        </Button>
-      </div>
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <div className="max-w-2xl w-full text-center">
-          <h2 className="text-3xl font-semibold text-foreground mb-8 text-balance">What's on your mind today?</h2>
+          <h2 className="text-3xl font-semibold text-foreground mb-8 text-balance">Ready when you are.</h2>
 
           {/* Chat Input */}
           <form onSubmit={handleSubmit} className="w-full">
             <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2">
+                <Plus className="h-4 w-4 text-muted-foreground" />
+              </div>
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Ask anything"
                 disabled={isStreaming}
-                className="w-full py-4 pl-6 pr-20 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-3xl text-base"
+                className="w-full py-4 pl-12 pr-20 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-3xl text-base"
                 autoFocus
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleFileUpload}
+                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-full"
+                >
+                  <Paperclip className="h-4 w-4" />
+                </Button>
                 <Button
                   type="button"
                   variant="ghost"
@@ -167,17 +170,6 @@ export function ChatGPTMainInterface({
                   )}
                 >
                   <Mic className="h-4 w-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-full"
-                >
-                  <div className="h-4 w-4 flex items-center justify-center">
-                    <div className="h-2 w-2 bg-current rounded-full" />
-                    <div className="h-3 w-3 border border-current rounded-full ml-1" />
-                  </div>
                 </Button>
               </div>
             </div>

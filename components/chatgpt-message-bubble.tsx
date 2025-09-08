@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { User, Copy, ThumbsUp, ThumbsDown } from "lucide-react"
+import { User, Copy, ThumbsUp, ThumbsDown, Bot } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -33,10 +33,10 @@ export function ChatGPTMessageBubble({ message, isStreaming }: ChatGPTMessageBub
           <div
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium",
-              isUser ? "bg-primary" : "bg-green-600",
+              isUser ? "bg-primary" : "bg-foreground",
             )}
           >
-            {isUser ? <User className="h-4 w-4" /> : <div className="text-xs font-bold">AI</div>}
+            {isUser ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4 text-background" />}
           </div>
         </div>
 
