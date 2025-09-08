@@ -114,3 +114,74 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* ChatGPT-like input pill */
+  .chatgpt-pill {
+    height: 44px;
+    border-radius: 9999px;
+    padding-left: 3.5rem; /* extra space for + icon to avoid overlap */
+    padding-right: 3.25rem; /* space for send/mic */
+    background-color: var(--input);
+    border: 1px solid color-mix(in oklch, var(--border) 95%, transparent);
+    box-shadow: 0 1px 0 color-mix(in oklch, var(--foreground) 5%, transparent);
+    transition: box-shadow 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  }
+  .chatgpt-pill::placeholder {
+    color: color-mix(in oklch, var(--foreground) 35%, transparent);
+  }
+  .chatgpt-pill:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 2px color-mix(in oklch, var(--ring) 30%, transparent),
+      0 1px 0 color-mix(in oklch, var(--foreground) 5%, transparent);
+  }
+  .chatgpt-ghost-icon {
+    @apply h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-full;
+    transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  }
+  .chatgpt-ghost-icon:hover {
+    background-color: color-mix(in oklch, var(--foreground) 6%, transparent);
+  }
+  .chatgpt-ghost-icon:focus-visible {
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--ring) 30%, transparent);
+    outline: none;
+  }
+
+  .chatgpt-pill:hover {
+    background-color: color-mix(in oklch, var(--input) 92%, transparent);
+    border-color: color-mix(in oklch, var(--border) 85%, transparent);
+  }
+  .chatgpt-container {
+    @apply max-w-3xl w-full;
+  }
+}
+
+/* Sidebar vs Chat scroll styling */
+.sidebar-scroll [data-slot="scroll-area-scrollbar"] {
+  opacity: 1;
+}
+.sidebar-scroll [data-slot="scroll-area-thumb"] {
+  background-color: color-mix(in oklch, var(--foreground) 20%, transparent);
+  border-radius: 9999px;
+}
+.sidebar-scroll [data-slot="scroll-area-scrollbar"][data-orientation="vertical"] {
+  width: 8px;
+}
+.sidebar-scroll [data-slot="scroll-area-scrollbar"][data-orientation="horizontal"] {
+  height: 8px;
+}
+
+.chat-scroll [data-slot="scroll-area-scrollbar"] {
+  opacity: 0.75;
+}
+.chat-scroll [data-slot="scroll-area-thumb"] {
+  background-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  border-radius: 9999px;
+}
+.chat-scroll [data-slot="scroll-area-scrollbar"][data-orientation="vertical"] {
+  width: 12px;
+}
+.chat-scroll [data-slot="scroll-area-scrollbar"][data-orientation="horizontal"] {
+  height: 12px;
+}

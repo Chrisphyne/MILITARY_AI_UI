@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://34.42.252.158:7300"
+const DEFAULT_BASE_URL = "http://localhost:7300"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || DEFAULT_BASE_URL
 
 export interface MilitaryProject {
   id: string
@@ -163,6 +164,21 @@ class MilitaryAPI {
   async deleteConversation(conversationId: string): Promise<{ message: string }> {
     return this.fetchWithErrorHandling(`${this.baseUrl}/api/military/conversations/${conversationId}`, {
       method: "DELETE",
+    })
+  }
+
+  async updateConversation(
+    conversationId: string,
+    data: Partial<{
+      title: string
+      classification_level: "UNCLASSIFIED" | "CONFIDENTIAL" | "SECRET"
+      project_id: string | null
+      is_standalone: boolean
+    }>,
+  ): Promise<MilitaryConversation> {
+    return this.fetchWithErrorHandling(`${this.baseUrl}/api/military/conversations/${conversationId}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
     })
   }
 
