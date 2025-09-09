@@ -6,11 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ChatGPTMessageBubble } from "@/components/chatgpt-message-bubble"
-<<<<<<< HEAD
-import { Mic, ArrowUp, Paperclip, Plus } from "lucide-react"
-=======
 import { Mic, ArrowUp, Paperclip, Loader2, Plus } from "lucide-react"
->>>>>>> 00865fa (initial commit)
 import { cn } from "@/lib/utils"
 
 interface ChatMessage {
@@ -58,12 +54,6 @@ export function ChatGPTMainInterface({
     // Voice input functionality would be implemented here
   }
 
-<<<<<<< HEAD
-  const handleFileUpload = () => {
-    // File upload functionality would be implemented here
-    console.log("File upload clicked")
-  }
-=======
   const handleAddFiles = (files: FileList | null) => {
     if (!files || files.length === 0) return
     // TODO: integrate uploads with backend
@@ -71,7 +61,6 @@ export function ChatGPTMainInterface({
     console.log("Selected files:", names)
   }
 
->>>>>>> 00865fa (initial commit)
   // Show chat interface if a chat is selected
   if (selectedChatId && messages.length > 0) {
     return (
@@ -124,30 +113,6 @@ export function ChatGPTMainInterface({
                   disabled={isStreaming}
                   className="chatgpt-pill"
                 />
-<<<<<<< HEAD
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleFileUpload}
-                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                  >
-                    <Paperclip className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleVoiceInput}
-                    className={cn(
-                      "h-8 w-8 p-0 text-muted-foreground hover:text-foreground",
-                      isListening && "text-primary",
-                    )}
-                  >
-                    <Mic className="h-4 w-4" />
-                  </Button>
-=======
                 {/* Left + inside input */}
               <Button
                 type="button"
@@ -173,7 +138,6 @@ export function ChatGPTMainInterface({
                 >
                   <Mic className="h-4 w-4" />
                 </Button>
->>>>>>> 00865fa (initial commit)
                   {message.trim() && !isStreaming && (
                     <Button
                       type="submit"
@@ -195,41 +159,21 @@ export function ChatGPTMainInterface({
 
   // Show welcome screen when no chat is selected or no messages
   return (
-<<<<<<< HEAD
-    <div className="flex-1 flex flex-col bg-background">
-
-      {/* Main content area */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8">
-        <div className="max-w-2xl w-full text-center">
-          <h2 className="text-3xl font-semibold text-foreground mb-8 text-balance">Ready when you are.</h2>
-=======
     <div className="h-full flex flex-col bg-background min-w-0">
       {/* Main content area */}
       <div className="flex-1 flex flex-col items-center justify-center p-8">
         <div className="chatgpt-container w-full text-center md:mt-[-2vh]">
           <DynamicWelcomeHeading />
->>>>>>> 00865fa (initial commit)
 
           {/* Chat Input */}
           <form onSubmit={handleSubmit} className="w-full">
             <div className="relative">
-<<<<<<< HEAD
-              <div className="absolute left-4 top-1/2 -translate-y-1/2">
-                <Plus className="h-4 w-4 text-muted-foreground" />
-              </div>
-              <Input
-=======
                 <Input
->>>>>>> 00865fa (initial commit)
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Ask anything"
                 disabled={isStreaming}
-<<<<<<< HEAD
-                className="w-full py-4 pl-12 pr-20 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-3xl text-base"
-=======
                 className="chatgpt-pill w-full text-base"
->>>>>>> 00865fa (initial commit)
                 autoFocus
               />
               {/* Left + button inside input */}
@@ -249,15 +193,6 @@ export function ChatGPTMainInterface({
                   type="button"
                   variant="ghost"
                   size="sm"
-                  onClick={handleFileUpload}
-                  className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-full"
-                >
-                  <Paperclip className="h-4 w-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
                   onClick={handleVoiceInput}
                   className={cn(
                     "chatgpt-ghost-icon",
@@ -266,8 +201,6 @@ export function ChatGPTMainInterface({
                 >
                   <Mic className="h-4 w-4" />
                 </Button>
-<<<<<<< HEAD
-=======
                 <Button
                   type="button"
                   variant="ghost"
@@ -279,7 +212,6 @@ export function ChatGPTMainInterface({
                     <div className="h-3 w-3 border border-current rounded-full ml-1" />
                   </div>
                 </Button>
->>>>>>> 00865fa (initial commit)
               </div>
             </div>
           </form>
